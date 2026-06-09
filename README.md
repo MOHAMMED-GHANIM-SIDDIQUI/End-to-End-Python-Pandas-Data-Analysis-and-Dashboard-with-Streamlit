@@ -36,12 +36,22 @@ flowchart LR
 
 ```text
 End-to-End-Python-Pandas-Data-Analysis-and-Dashboard-with-Streamlit/
-|-- dashboard.py
+|-- dashboard.py              # Streamlit entrypoint
 |-- requirements.txt
 |-- README.md
 |-- .gitignore
-|-- churn dataset.csv
-`-- Notebook Exploring Code.ipynb
+|-- data/
+|   `-- churn_dataset.csv
+|-- notebooks/
+|   `-- exploratory_analysis.ipynb
+|-- src/
+|   `-- churn_dashboard/
+|       |-- app.py            # UI orchestration
+|       |-- analytics.py      # KPI and insight calculations
+|       `-- schema.py         # required-column validation
+|-- tests/
+|   `-- test_analytics.py
+`-- .github/workflows/ci.yml
 ```
 
 ## Required Dataset Schema
@@ -79,8 +89,16 @@ source .venv/bin/activate
 ## Development Workflow
 
 ```bash
-python -m compileall dashboard.py
+set PYTHONPATH=src
+pytest -q
+python -m compileall dashboard.py src
 streamlit run dashboard.py
+```
+
+On macOS/Linux:
+
+```bash
+export PYTHONPATH=src
 ```
 
 ## Quality Improvements Included
@@ -90,13 +108,16 @@ streamlit run dashboard.py
 - Added default dataset caching.
 - Added error handling for invalid uploads.
 - Added figure cleanup after rendering.
+- Moved reusable logic into `src/churn_dashboard`.
+- Added pytest coverage for schema validation, statistics, and insight functions.
+- Added GitHub Actions CI for automated checks.
 
 ## Roadmap
 
 - Add churn model training and evaluation
 - Add correlation and cohort views
 - Add downloadable executive report
-- Add automated tests for validation and KPI functions
+- Add richer tests for chart rendering and upload handling
 
 ## Troubleshooting
 
